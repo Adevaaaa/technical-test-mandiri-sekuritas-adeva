@@ -2,8 +2,8 @@ CREATE TABLE transaksi_new AS
 WITH transaksi_cte AS (
     SELECT 
         t.id AS transaksi_id,
-		t.client_id,
-		t.card_id,
+	t.client_id,
+	t.card_id,
         t.date,
         t.amount,
         t.merchant_city,
@@ -26,10 +26,17 @@ SELECT * FROM transaksi_cte;
 
 
 UPDATE transaksi
-SET amount = REPLACE(amount, '$', '');
-
+SET amount = REPLACE(amount, '$', ''),
+    per_capita_income = REPLACE(per_capita_income, '$', ''), 
+    yearly_income = REPLACE(yearly_income, '$', ''), 
+    total_debt = REPLACE(total_debt, '$', ''), 
+    credit_limit = REPLACE(credit_limit,'$','');
 ALTER TABLE transaksi
-    ALTER COLUMN amount TYPE NUMERIC USING amount::NUMERIC;
+    ALTER COLUMN amount TYPE NUMERIC USING amount::NUMERIC
+    ALTER COLUMN per_capita_income TYPE NUMERIC USING per_capita_income::NUMERIC,
+    ALTER COLUMN yearly_income TYPE NUMERIC USING yearly_income::NUMERIC,
+    ALTER COLUMN total_debt TYPE NUMERIC USING total_debt::NUMERIC,
+    ALTER COLUMN credit_limit TYPE NUMERIC USING credit_limit::NUMERIC;
 
 SELECT * FROM transaksi_new ORDER BY transaksi_id ASC;
 
